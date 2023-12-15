@@ -1,5 +1,5 @@
 from kivy.app import App
-from kivy.uix.label import Label
+from kivy.uix.textinput import TextInput
 from kivy.utils import platform
 from kivy.clock import Clock
 from kivy.logger import Logger
@@ -47,16 +47,17 @@ class MyApp(App):
     def build(self):
         self.hide()
 
-        label = Label(text="Hello, World")
-        label.on_touch_down = self.on_touch_down
+        text = TextInput(text="Hello, World")
 
+        Window.bind(on_touch_down=self.on_touch_down)
         Window.bind(on_resize=self.on_resize)
 
-        return label
+        return text
 
-    def on_touch_down(self, touch):
+    def on_touch_down(self, instance, touch):
         if touch.is_double_tap:
             self.hide() if self.has_system_bars else self.show()
+            return True
 
     def on_resize(self, *args):
         Logger.info('MyApp: on_resize %r' % (args,))
